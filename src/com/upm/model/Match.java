@@ -48,8 +48,7 @@ public class Match {
   }
 
   public void updateScoreBoard(){
-    //Implementar logica para mostrar el resutlado actual del match.
-
+    //Implementar aqui logica para mostrar el resutlado actual del match.
   }
 
 
