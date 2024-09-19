@@ -3,7 +3,7 @@ package com.upm.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+public abstract class Game {
 
   protected final List<Point> points;
 
@@ -26,6 +26,31 @@ public class Game {
     return null;
   }
 
+  public Player getLastPointServicePlayer(){
+    Player lastServicePlayer = null;
+    for (Point point : points) {
+      if (point.getWinner() != null){
+        lastServicePlayer = point.getService();
+      }
+    }
+
+    return lastServicePlayer;
+  }
+
+  public Player getLastRestServicePlayer(){
+    Player lastRestPlayer = null;
+    for (Point point : points) {
+      if (point.getWinner() != null){
+        lastRestPlayer = point.getRest();
+      }
+    }
+
+    return lastRestPlayer;
+  }
+
+  abstract boolean isFinished();
+
+  abstract Player getWinner();
 
 
 

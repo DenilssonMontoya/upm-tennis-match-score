@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+
 
 public class Match {
 
@@ -20,38 +22,89 @@ public class Match {
 
   private LocalDateTime date;
 
-  public Match() {
+  public Match(Integer numberOfSets, Player playerOne, Player playerTwo , Referee referee) {
     this.sets = new ArrayList<>();
     this.players = new ArrayList<>();
     this.scoreBoard = new ScoreBoard();
     this.date = LocalDateTime.now();
-  }
 
-  public void populateMatchDetails(Integer numberOfSets, Player playerOne, Player playerTwo , Referee referee){
-
-    addSets(numberOfSets);
-
+    this.addSets(numberOfSets);
     this.players.add(playerOne);
     this.players.add(playerTwo);
     this.referee = referee;
-
   }
 
   public Set getCurrentSet(){
-
-    for (Set set : sets){
-      if(set.getCurrentGame() != null){
+    for (Set set : sets) {
+      if (!set.isFinished()) {
         return set;
       }
     }
-    return null;
+    return sets.get(0);
   }
 
-  public void updateScoreBoard(){
-    //Implementar logica para mostrar el resutlado actual del match.
+  public List<Player> getPlayersRandomOrder(){
+    Random randomBoolean = new Random();
+    List<Player> randomPlayers = new ArrayList<>();
 
+    var randomPlayerOne = (randomBoolean.nextBoolean())? players.get(0) : players.get(1);
+    var randomPlayerTwo = (randomPlayerOne.equals(players.get(0)))? players.get(1) : players.get(0);
+    randomPlayers.add(randomPlayerOne);
+    randomPlayers.add(randomPlayerTwo);
+
+    return randomPlayers;
   }
 
+  public Player getRandomPlayer(){
+    Random randomBoolean = new Random();
+    return (randomBoolean.nextBoolean())? players.get(0) : players.get(1);
+  }
+
+
+  public Player getNextServicePlayer(){
+
+    Set currentSet = this.getCurrentSet();
+
+    //En el primer juego de un set posterior a un tie break del anterior set, el
+    //servicio del primer juego será para el jugador que resto el primer punto de dicho tie break
+    if((currentSet.getGames().isEmpty()||
+        (currentSet.getGames().size()==1 && currentSet.getCurrentGame().getPoints().isEmpty()))
+        && currentSet.isLastClosedGameATieBreak()){
+      return currentSet.getRestPlayerFromFirstPointInTieBreakGame();
+    }
+
+    //El jugador con servicio del primer juego será aleatorio
+    if(currentSet.getGames().isEmpty() || (currentSet.getGames().size()==1 && currentSet.getCurrentGame().getPoints().isEmpty())){
+      return this.getRandomPlayer();
+    }
+
+    if(currentSet.getCurrentGame() instanceof Standard){
+      // - El servicio en un juego estándar será de un jugador durante todos los puntos del juego en curso
+      // - Alternando al jugador que resta para el siguiente juego
+
+      if(currentSet.getGames().size() == 1){
+        return currentSet.getCurrentGame().getLastPointServicePlayer();
+      } else if (currentSet.getGames().size() > 1) {
+        return currentSet.getRestPlayerFromLastClosedStandardGame();
+      }
+      return this.getRandomPlayer();
+    }
+
+    if(currentSet.getCurrentGame() instanceof TieBreak){
+      //servicio en un tie break comenzará el primer punto con el jugador que restó el juego anterior
+      //posteriormente alternará cada 2 puntos entre ambos jugadores
+      if(currentSet.getCurrentGame().getPoints().isEmpty()){
+        return currentSet.getRestPlayerFromLastClosedStandardGame();
+      } else {
+        if(currentSet.getCurrentGame().getPoints().size() % 2 == 0){
+          return currentSet.getCurrentGame().getLastRestServicePlayer();
+        }
+        return currentSet.getCurrentGame().getLastPointServicePlayer();
+      }
+    }
+
+    return this.getRandomPlayer();
+  }
 
   private void addSets(Integer numberOfSets) {
     for (int i = 0; i < numberOfSets; i++) {
@@ -59,6 +112,21 @@ public class Match {
     }
   }
 
+  public void updateScoreBoard(){
+    //Implementar logica para mostrar el resutlado actual del match.
 
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public List<Player> getPlayers() {
+    return players;
+  }
 
 }
