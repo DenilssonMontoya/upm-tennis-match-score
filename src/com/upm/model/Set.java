@@ -172,4 +172,14 @@ public class Set {
     return games.size() >= 12;
   }
 
+  public Map<Player, Integer> getWonGamesByPlayer(){
+    Map<Player, Integer> gamesVictoryMap = new HashMap<>();
+    for(Game game: this.games){
+      if(game.getWinner() != null) {
+        gamesVictoryMap.put(game.getWinner(), gamesVictoryMap.getOrDefault(game.getWinner(), 0) + 1);
+      }
+    }
+    return gamesVictoryMap;
+  }
+
 }

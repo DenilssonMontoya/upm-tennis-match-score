@@ -19,9 +19,10 @@ public class Standard extends Game{
     Map<Integer, Integer> playerWinsMap = new HashMap<>();
 
     //Rule: Not minimum Points Played
-    if(this.getPoints().size() < 4) return false;
+    if(this.getPoints().stream().filter(point -> point.getWinner() != null).count() < 4) return false;
     //Rule One Player All victories
     for (Point point: this.points){
+      if(point.getWinner() == null) continue;
       Integer playerId = point.getWinner().getId();
       playerWinsMap.put(playerId,playerWinsMap.getOrDefault(playerId,0) + 1);
     }
