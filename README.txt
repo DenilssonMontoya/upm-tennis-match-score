@@ -1,3 +1,3 @@
 Trabajo hecho por:
--Denilsson Montoya
--Saúl Osorio Hernández: Autoevaluación 8.5/10 - Hice aportes importantes a la arquitectura e implementación del proyecto, sin embargo, tendría que haberle invertido un poco más de tiempo con lo cuál se habrían podido afinar varios detalles y llevar a cabo un proyecto con más templanza y cuidado. 
+-Denilsson Montoya: Autoevaluación 8.0/10 - Agregué valor tanto en el diseño del modelo como en la implementación del programa, estableciendo en equipo una base sólida que nos facilitará el trabajo asincrónico. Mi disponibilidad para este trabajo no fue tan temprana como hubiera deseado, lo que me hubiese permitido entregar mayor valor en el proyecto.
+-Saúl Osorio Hernández: Autoevaluación 8.5/10 - Hice aportes importantes a la arquitectura e implementación del proyecto, sin embargo, tendría que haberle invertido un poco más de tiempo con lo cuál se habrían podido afinar varios detalles y llevar a cabo un proyecto con más templanza y cuidado.
