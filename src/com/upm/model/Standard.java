@@ -7,12 +7,6 @@ import java.util.Map.Entry;
 
 public class Standard extends Game{
 
-  public void startNewPointToPlay(){
-
-
-  }
-
-
 
   @Override
   public boolean isFinished() {

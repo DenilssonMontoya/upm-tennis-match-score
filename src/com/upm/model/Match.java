@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -108,9 +109,9 @@ public class Match {
 
   public Player getMostRecentServicePlayerInMatch(){
     List<Point> points = sets.stream().flatMap(set -> set.getGames().stream())
-            .filter(game -> game != null)
+            .filter(Objects::nonNull)
             .flatMap(game -> game.getPoints().stream())
-            .filter(point -> point != null).filter(point -> point.getService() != null)
+            .filter(Objects::nonNull).filter(point -> point.getService() != null)
             .toList();
     if(points.isEmpty()) return null;
     return points.get(points.size() - 1).getService();
