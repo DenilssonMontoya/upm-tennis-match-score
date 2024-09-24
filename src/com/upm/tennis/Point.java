@@ -1,18 +1,18 @@
-package com.test;
+package com.upm.tennis;
 
 public class Point {
 
-  private final Player rest;
-
   private final Player service;
+
+  private final Player rest;
 
   private Player winner;
 
   private Integer lackOfServiceCount = 0;
 
-  public Point(Player rest, Player service) {
-    this.rest = rest;
+  public Point(Player service, Player rest) {
     this.service = service;
+    this.rest = rest;
   }
 
   public Player getWinner() {
@@ -20,12 +20,7 @@ public class Point {
   }
 
   public void incrementLackOfService(){
-    if(this.winner != null) return;
-
     this.lackOfServiceCount++;
-    if(this.lackOfServiceCount == 2){
-      this.addRestPlayerAsWinner();
-    }
   }
 
   public void addRestPlayerAsWinner(){
@@ -36,4 +31,15 @@ public class Point {
     this.winner = this.service;
   }
 
+  public Integer getLackOfServiceCount() {
+    return lackOfServiceCount;
+  }
+
+  public Player getService() {
+    return service;
+  }
+
+  public Player getRest() {
+    return rest;
+  }
 }

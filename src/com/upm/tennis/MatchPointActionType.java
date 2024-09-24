@@ -1,4 +1,4 @@
-package com.test;
+package com.upm.tennis;
 
 public enum MatchPointActionType {
   LACK_SERVICE("lackService"),

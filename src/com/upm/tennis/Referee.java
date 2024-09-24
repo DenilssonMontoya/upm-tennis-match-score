@@ -1,4 +1,4 @@
-package com.test;
+package com.upm.tennis;
 
 public class Referee extends Person {
 

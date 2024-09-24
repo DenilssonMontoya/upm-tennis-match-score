@@ -1,4 +1,4 @@
-package com.test;
+package com.upm.tennis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.upm.model.Player;
 
 public class Set {
 
@@ -17,24 +15,28 @@ public class Set {
     this.games = new ArrayList<>();
   }
 
-  public void addPointService(List<Player> players) {
-    Game currentGame = this.getCurrentGame();
-    currentGame.addPointService(players);
+  public void addPointService(Player service, Player rest) {
+    Game currentGame = this.getCurrentOrNewGame();
+    currentGame.addPointService(service, rest);
   }
 
-  public void addLackService() {
+  public void addLackService(Player service, Player rest) {
     Game currentGame = this.getCurrentOrNewGame();
-    currentGame.addLackService();
+    currentGame.addLackService(service, rest);
   }
 
-  public void addPointRest() {
+  public void addPointRest(Player service, Player rest) {
     Game currentGame = this.getCurrentOrNewGame();
-    currentGame.addPointRest();
+    currentGame.addPointRest(service, rest);
   }
 
   public boolean isFinished(){
     Map<Player, Integer> gameWinsByPlayer = getGameWinsByPlayer();
     return this.isThereSetWinner(gameWinsByPlayer);
+  }
+
+  public boolean hasCurrentSetHaveGames(){
+    return !this.games.isEmpty();
   }
 
   private Game getCurrentOrNewGame(){
@@ -45,7 +47,7 @@ public class Set {
     return addNewGame();
   }
 
-  private Game getCurrentGame(){
+  public Game getCurrentGame(){
     for (Game game : this.games){
       if(!game.isFinished()){
         return game;
@@ -115,7 +117,7 @@ public class Set {
     return this.hasPlayerWonSet(playerEvaluated, 0);
   }
 
-  private Map<Player, Integer> getGameWinsByPlayer() {
+  public Map<Player, Integer> getGameWinsByPlayer() {
     Map<Player, Integer> playerWinsMap = new HashMap<>();
     for (Game game: this.games){
       Player winner = game.getWinner();
@@ -124,6 +126,36 @@ public class Set {
       }
     }
     return playerWinsMap;
+  }
+
+  public boolean doesSetHasTieBreakGame(){
+    return this.games.size() == 13;
+  }
+
+  public Player getRestPlayerFromFirstPointInLastFinishedGame(){
+    Game lastFinishedGame = this.getLastFinishedGame();
+    if(lastFinishedGame == null) return null;
+    return lastFinishedGame.getRestPlayerFromFirstPoint();
+  }
+
+  private Game getLastFinishedGame(){
+    Game lastFinishedGame = null;
+    for (Game game: this.games){
+      if(game.isFinished()){
+        lastFinishedGame = game;
+      }
+    }
+    return lastFinishedGame;
+  }
+
+  public Player getNexServicePlayerFromCurrentGame(){
+    Game currentGame = this.getCurrentGame();
+    Player nextServicePlayer = null;
+
+    if(currentGame != null){
+      nextServicePlayer = currentGame.getNextServicePlayerFromNonFirstPointInGame();
+    }
+    return nextServicePlayer;
   }
 
 }
