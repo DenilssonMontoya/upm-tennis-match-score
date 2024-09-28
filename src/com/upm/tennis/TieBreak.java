@@ -1,6 +1,7 @@
 package com.upm.tennis;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -8,22 +9,18 @@ import java.util.Map.Entry;
 public class TieBreak extends Game{
 
   public TieBreak() {
-    this.points = new ArrayList<>();
+    this.pointsMap = new HashMap<Player, Integer>();
   }
 
   @Override
   public boolean isFinished() {
-    Map<Player, Integer> pointWinsByPlayer = this.getPointWinsByPlayer();
+    Map<Player, Integer> pointWinsByPlayer = this.getPointsMap();
     return this.isThereGameWinner(pointWinsByPlayer);
   }
 
   @Override
   public Player getNextServicePlayerFromNonFirstPointInGame() {
-    if(this.points.size() % 2 == 0){
-      return this.getLastPointRestPlayer();
-    } else{
-      return this.getLastPointServicePlayer();
-    }
+    return this.rest;
   }
 
   private boolean isThereGameWinner(Map<Player, Integer> pointWinsByPlayer){

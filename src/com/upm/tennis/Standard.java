@@ -1,25 +1,24 @@
 package com.upm.tennis;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
+import java.util.Set;
 
 public class Standard extends Game{
 
   public Standard() {
-    this.points = new ArrayList<>();
+    this.pointsMap = new HashMap<Player, Integer>();
   }
 
   @Override
   public boolean isFinished() {
-    Map<Player, Integer> pointWinsByPlayer = this.getPointWinsByPlayer();
+    Map<Player, Integer> pointWinsByPlayer = this.getPointsMap();
     return this.isThereGameWinner(pointWinsByPlayer);
   }
 
   @Override
   public Player getNextServicePlayerFromNonFirstPointInGame() {
-    return this.points.get(0).getService();
+    return this.service;
   }
 
   private boolean isThereGameWinner(Map<Player, Integer> pointWinsByPlayer){

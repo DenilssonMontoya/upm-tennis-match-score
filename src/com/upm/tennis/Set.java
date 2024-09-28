@@ -17,7 +17,7 @@ public class Set {
 
   public void addPointService(Player service, Player rest) {
     Game currentGame = this.getCurrentOrNewGame();
-    currentGame.addPointService(service, rest);
+    currentGame.addPoint(service);
   }
 
   public void addLackService(Player service, Player rest) {
@@ -27,7 +27,7 @@ public class Set {
 
   public void addPointRest(Player service, Player rest) {
     Game currentGame = this.getCurrentOrNewGame();
-    currentGame.addPointRest(service, rest);
+    currentGame.addPoint(rest);
   }
 
   public boolean isFinished(){
