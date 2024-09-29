@@ -9,10 +9,6 @@ public class Referee extends Person {
     this.password = password;
   }
 
-  public String getPassword() {
-    return password;
-  }
-
   public boolean matchCredentials(String name, String password) {
     return this.name.equals(name) && this.password.equals(password);
   }

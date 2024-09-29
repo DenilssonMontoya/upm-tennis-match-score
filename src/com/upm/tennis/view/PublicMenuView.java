@@ -3,17 +3,17 @@ package com.upm.tennis.view;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.upm.tennis.controller.GeneralTennisManagementController;
+import com.upm.tennis.controller.PublicScoreManagerController;
 import com.upm.tennis.controller.HelpController;
 
-public class MainMenuView extends MenuView {
+public class PublicMenuView extends MenuView {
 
-  private final GeneralTennisManagementController generalTennisManagementController;
+  private final PublicScoreManagerController publicScoreManagerController;
 
   private final HelpController helpController;
 
-  public MainMenuView(GeneralTennisManagementController generalTennisManagementController, HelpController helpController) {
-    this.generalTennisManagementController = generalTennisManagementController;
+  public PublicMenuView(PublicScoreManagerController publicScoreManagerController, HelpController helpController) {
+    this.publicScoreManagerController = publicScoreManagerController;
     this.helpController = helpController;
   }
 
@@ -34,10 +34,10 @@ public class MainMenuView extends MenuView {
 
     switch (command) {
       case "createReferee":
-        commandParameters.ifPresent(this.generalTennisManagementController::createReferee);
+        commandParameters.ifPresent(this.publicScoreManagerController::createReferee);
         break;
       case "login":
-        commandParameters.ifPresent(this.generalTennisManagementController::login);
+        commandParameters.ifPresent(this.publicScoreManagerController::login);
         break;
       case "help":
         this.helpController.display();

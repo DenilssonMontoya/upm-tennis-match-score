@@ -1,16 +1,16 @@
 package com.upm.tennis.controller;
 
-import com.upm.tennis.view.MainMenuView;
+import com.upm.tennis.view.PublicMenuView;
 
 public class MainMenuController {
 
-  private final MainMenuView mainMenuView;
+  private final PublicMenuView publicMenuView;
 
-  public MainMenuController(MainMenuView mainMenuView) {
-    this.mainMenuView = mainMenuView;
+  public MainMenuController(PublicMenuView publicMenuView) {
+    this.publicMenuView = publicMenuView;
   }
 
   public void displayOptions() {
-    this.mainMenuView.displayOptions();
+    this.publicMenuView.displayOptions();
   }
 }

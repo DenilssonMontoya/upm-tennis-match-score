@@ -2,7 +2,9 @@ package com.upm.tennis.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
@@ -18,9 +20,9 @@ public class Match {
 
   private final LocalDate date;
 
-  private Integer numberOfSets;
+  private final Integer numberOfSets;
 
-  private Referee referee;
+  private final Referee referee;
 
   public Match(Integer id, int numberOfSets, List<Player> players, Referee referee) {
     this.id = id;
@@ -30,6 +32,7 @@ public class Match {
     this.referee = referee;
     this.scoreBoard = new ScoreBoard();
     this.date = LocalDate.now();
+    this.scoreBoard.initialize(numberOfSets, players.get(0), players.get(1));
   }
 
   private void addPointService(Set currentSet, Player service, Player rest) {
@@ -173,4 +176,25 @@ public class Match {
     return false;
   }
 
+  public void updateScoreBoard() {
+    Set currentSet = this.getCurrentOrNewSet();
+    Player nextServicePlayer = this.getNextServicePlayer();
+    this.scoreBoard.update(this.sets, currentSet, nextServicePlayer);
+  }
+
+  public boolean isFinished() {
+    Map<Player, Integer> playerSetWinsCount = new HashMap<>();
+
+    for (Set set : this.sets) {
+      if (set.getSetWinner() != null) {
+        playerSetWinsCount.put(set.getSetWinner(),
+            playerSetWinsCount.getOrDefault(set.getSetWinner(), 0) + 1);
+      }
+    }
+
+    return playerSetWinsCount.entrySet()
+        .stream()
+        .anyMatch(playerIntegerEntry ->
+            playerIntegerEntry.getValue() >= (this.numberOfSets / 2) + 1);
+  }
 }

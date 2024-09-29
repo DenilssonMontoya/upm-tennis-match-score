@@ -3,22 +3,22 @@ package com.upm.tennis.controller;
 import java.util.Optional;
 
 import com.upm.tennis.model.Referee;
-import com.upm.tennis.model.TennisManagement;
+import com.upm.tennis.model.ScoreManager;
 import com.upm.tennis.view.RefereeMenuView;
-import com.upm.tennis.view.TennisManagementView;
+import com.upm.tennis.view.ScoreMangerView;
 
-public class GeneralTennisManagementController {
+public class PublicScoreManagerController {
 
-  private final TennisManagement tennisManagement;
+  private final ScoreManager scoreManager;
 
-  private final TennisManagementView tennisManagementView;
+  private final ScoreMangerView scoreMangerView;
 
   private final RefereeMenuView refereeMenuView;
 
-  public GeneralTennisManagementController(TennisManagement tennisManagement, TennisManagementView tennisManagementView,
+  public PublicScoreManagerController(ScoreManager scoreManager, ScoreMangerView scoreMangerView,
       RefereeMenuView refereeMenuView) {
-    this.tennisManagement = tennisManagement;
-    this.tennisManagementView = tennisManagementView;
+    this.scoreManager = scoreManager;
+    this.scoreMangerView = scoreMangerView;
     this.refereeMenuView = refereeMenuView;
   }
 
@@ -27,11 +27,11 @@ public class GeneralTennisManagementController {
     Optional<String> password = this.getParameterValueByKey(commandParameters, "password");
 
     if (name.isEmpty() || password.isEmpty()) {
-      this.tennisManagementView.showNotValidCommandMessage();
+      this.scoreMangerView.showNotValidCommandMessage();
       return;
     }
-    this.tennisManagement.addNewReferee(name.get(), password.get());
-    this.tennisManagementView.showSuccessMessage();
+    this.scoreManager.addNewReferee(name.get(), password.get());
+    this.scoreMangerView.showSuccessMessage();
   }
 
   public void login(String commandParameters) {
@@ -39,13 +39,13 @@ public class GeneralTennisManagementController {
     Optional<String> password = this.getParameterValueByKey(commandParameters, "password");
 
     if (name.isEmpty() || password.isEmpty()) {
-      this.tennisManagementView.showNotValidCommandMessage();
+      this.scoreMangerView.showNotValidCommandMessage();
       return;
     }
-    Optional<Referee> loggedReferee = this.tennisManagement.login(name.get(), password.get());
+    Optional<Referee> loggedReferee = this.scoreManager.login(name.get(), password.get());
 
     if (loggedReferee.isEmpty()) {
-      this.tennisManagementView.showFailedLoginMessage();
+      this.scoreMangerView.showFailedLoginMessage();
       return;
     }
 

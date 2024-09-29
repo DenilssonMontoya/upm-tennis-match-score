@@ -4,17 +4,17 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import com.upm.tennis.controller.HelpController;
-import com.upm.tennis.controller.RefereeTennisManagementController;
+import com.upm.tennis.controller.RefereeScoreManagerController;
 import com.upm.tennis.model.Referee;
 
 public class RefereeMenuView extends MenuView {
 
-  private final RefereeTennisManagementController refereeTennisManagementController;
+  private final RefereeScoreManagerController refereeScoreManagerController;
 
   private final HelpController helpController;
 
-  public RefereeMenuView(RefereeTennisManagementController refereeTennisManagementController, HelpController helpController) {
-    this.refereeTennisManagementController = refereeTennisManagementController;
+  public RefereeMenuView(RefereeScoreManagerController refereeScoreManagerController, HelpController helpController) {
+    this.refereeScoreManagerController = refereeScoreManagerController;
     this.helpController = helpController;
   }
 
@@ -35,16 +35,16 @@ public class RefereeMenuView extends MenuView {
 
     switch (command) {
       case "createPlayer":
-        commandParameters.ifPresent(this.refereeTennisManagementController::createPlayer);
+        commandParameters.ifPresent(this.refereeScoreManagerController::createPlayer);
         break;
       case "readPlayers":
-        this.refereeTennisManagementController.readPlayers();
+        this.refereeScoreManagerController.readPlayers();
         break;
       case "createMatch":
-        commandParameters.ifPresent(parameters -> this.refereeTennisManagementController.createMatch(parameters, referee));
+        commandParameters.ifPresent(parameters -> this.refereeScoreManagerController.createMatch(parameters, referee));
         break;
       case "match":
-        commandParameters.ifPresent(this.refereeTennisManagementController::addMatchPoint);
+        commandParameters.ifPresent(this.refereeScoreManagerController::addMatchPoint);
         break;
       case "readPlayer", "readMatch":
         System.out.println("NOT IMPLEMENTED");

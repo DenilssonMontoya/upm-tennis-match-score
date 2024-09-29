@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import com.upm.tennis.dto.MatchDTO;
 
-public class TennisManagement {
+public class ScoreManager {
 
   private final List<Player> players;
 
@@ -14,7 +14,7 @@ public class TennisManagement {
 
   private final List<Match> matches;
 
-  public TennisManagement() {
+  public ScoreManager() {
     this.matches = new ArrayList<>();
     this.players = new ArrayList<>();
     this.referees = new ArrayList<>();
@@ -66,6 +66,11 @@ public class TennisManagement {
     Optional<Match> foundMatch = this.findMatchById(matchId);
     foundMatch.ifPresent(match -> match.processAction(actionPoint));
     return foundMatch;
+  }
+
+  public boolean isMatchByIdFinishedOrNotExists(Integer id) {
+    Optional<Match> foundMatch = this.findMatchById(id);
+    return foundMatch.map(Match::isFinished).orElse(true);
   }
 
   private Optional<Player> findPlayerById(Integer id) {

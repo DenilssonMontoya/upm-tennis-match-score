@@ -30,11 +30,6 @@ public class ScoreBoard {
     scoreInformation.add(initializePlayerRow(rest, numberOfSets, ""));
   }
 
-  public void display() {
-    System.out.println(formatRow(scoreInformation.get(0)));
-    System.out.println(formatRow(scoreInformation.get(1)));
-  }
-
   public void update(List<Set> sets, Set currentSet, Player nextService) {
     String playerOneName = scoreInformation.get(0).get("name");
     String playerTwoName = scoreInformation.get(1).get("name");
@@ -43,8 +38,12 @@ public class ScoreBoard {
     updateServices(playerOneName, playerTwoName, nextService);
   }
 
+  public List<HashMap<String, String>> getScoreInformation() {
+    return scoreInformation;
+  }
+
   private HashMap<String, String> initializePlayerRow(Player player, Integer numberOfSets, String service) {
-    return new HashMap<String, String>() {{
+    return new HashMap<>() {{
       put("hasService", service);
       put("name", player.getName());
       put("currentGame", "0");
@@ -83,19 +82,18 @@ public class ScoreBoard {
   }
 
   private Integer getCurrentPointCount(String playerName, Game currentGame) {
-    Integer pointCount = 0;
-    if (currentGame == null) {
-      return 0;
-    }
-    for (Point point : currentGame.getPoints()) {
-      if (point.getWinner() == null) {
-        continue;
-      }
-      if (playerName.equals(point.getWinner().getName())) {
-        pointCount++;
-      }
-    }
-    return pointCount;
+
+    Map<Player, Integer> pointsByPlayerMapInThisGame = !Objects.isNull(currentGame) ?
+        currentGame.getPointsMap() : new HashMap<>();
+
+    return pointsByPlayerMapInThisGame.entrySet()
+        .stream()
+        .filter(entry -> entry.getKey()
+            .getName()
+            .equals(playerName))
+        .map(Map.Entry::getValue)
+        .findFirst()
+        .orElse(0);
   }
 
   private String getCalculatedPoints(Integer pointCountEvaluatedPlayer, Integer pointCountOpponentPlayer) {
@@ -116,21 +114,6 @@ public class ScoreBoard {
       return "40";
     }
     return "AD";
-  }
-
-  private String formatRow(HashMap<String, String> row) {
-    return row.getOrDefault("hasService", "") + " "
-        + row.getOrDefault("name", "") + " :  "
-        + row.getOrDefault("currentGame", "0") + " "
-        + getSetsString(row);
-  }
-
-  private String getSetsString(HashMap<String, String> row) {
-    StringBuilder setString = new StringBuilder();
-    for (int i = 1; i < 6; i++) {
-      setString.append(row.getOrDefault("set" + i, ""));
-    }
-    return setString.toString();
   }
 
   private String hasService(String playerName, Player nextServicePlayer) {
