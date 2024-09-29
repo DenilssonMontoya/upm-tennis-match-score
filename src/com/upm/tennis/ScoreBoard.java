@@ -82,13 +82,15 @@ public class ScoreBoard {
     }
 
     private Integer getCurrentPointCount(String playerName, Game currentGame) {
-        Integer pointCount = 0;
-        if (currentGame == null) return 0;
-        for (Point point : currentGame.getPoints()) {
-            if (point.getWinner() == null) continue;
-            if (playerName.equals(point.getWinner().getName())) pointCount++;
-        }
-        return pointCount;
+        Map<Player, Integer> pointsByPlayerMapInThisGame = currentGame.getPointsMap();
+        return pointsByPlayerMapInThisGame.entrySet()
+                .stream()
+                .filter(entry -> entry.getKey()
+                        .getName()
+                        .equals(playerName))
+                .map(Map.Entry::getValue)
+                .findFirst()
+                .orElse(0);
     }
 
     private String getCalculatedPoints(Integer pointCountEvaluatedPlayer, Integer pointCountOpponentPlayer) {
