@@ -1,4 +1,4 @@
-package com.upm.tennis;
+package com.upm.tennis.model;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,22 +27,22 @@ public abstract class Game {
   protected void addLackService(Player service, Player rest) {
     Point currentPoint = this.getCurrentOrNewPoint(service, rest);
     currentPoint.incrementLackOfService();
-    if(currentPoint.getLackOfServiceCount() == 2){
+    if (currentPoint.getLackOfServiceCount() == 2) {
       currentPoint.addRestPlayerAsWinner();
     }
   }
 
-  protected Point getCurrentOrNewPoint(Player service, Player rest){
+  protected Point getCurrentOrNewPoint(Player service, Player rest) {
     Point currentPoint = this.getCurrentPoint();
-    if(currentPoint != null) {
+    if (currentPoint != null) {
       return currentPoint;
     }
     return this.addNewPoint(service, rest);
   }
 
-  private Point getCurrentPoint(){
-    for (Point point: points){
-      if(point.getWinner() == null){
+  private Point getCurrentPoint() {
+    for (Point point : points) {
+      if (point.getWinner() == null) {
         return point;
       }
     }
@@ -55,12 +55,12 @@ public abstract class Game {
     return newPoint;
   }
 
-  protected Map<Player, Integer> getPointWinsByPlayer(){
+  protected Map<Player, Integer> getPointWinsByPlayer() {
     Map<Player, Integer> playerWinsMap = new HashMap<>();
-    for (Point point: this.points){
-      if(point.getWinner() != null){
+    for (Point point : this.points) {
+      if (point.getWinner() != null) {
         playerWinsMap.put(point.getWinner(),
-            playerWinsMap.getOrDefault(point.getWinner(),0) + 1);
+            playerWinsMap.getOrDefault(point.getWinner(), 0) + 1);
       }
     }
     return playerWinsMap;
@@ -72,10 +72,10 @@ public abstract class Game {
 
   public abstract Player getNextServicePlayerFromNonFirstPointInGame();
 
-  public Player getLastPointServicePlayer(){
+  public Player getLastPointServicePlayer() {
     Player lastServicePlayer = null;
     for (Point point : points) {
-      if (point.getWinner() != null){
+      if (point.getWinner() != null) {
         lastServicePlayer = point.getService();
       }
     }
@@ -83,10 +83,10 @@ public abstract class Game {
     return lastServicePlayer;
   }
 
-  public Player getLastPointRestPlayer(){
+  public Player getLastPointRestPlayer() {
     Player lastRestPlayer = null;
     for (Point point : points) {
-      if (point.getWinner() != null){
+      if (point.getWinner() != null) {
         lastRestPlayer = point.getRest();
       }
     }

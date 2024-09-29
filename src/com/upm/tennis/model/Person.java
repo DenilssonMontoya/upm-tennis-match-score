@@ -1,8 +1,8 @@
-package com.upm.tennis;
+package com.upm.tennis.model;
 
 public class Person {
 
-  private final String name;
+  protected final String name;
 
   public Person(String name) {
     this.name = name;

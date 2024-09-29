@@ -1,67 +1,53 @@
-package com.upm.tennis;
+package com.upm.tennis.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Match {
 
-  private List<Set> sets;
+  private final Integer id;
 
-  private List<Player> players;
+  private final List<Set> sets;
+
+  private final List<Player> players;
+
+  private final ScoreBoard scoreBoard;
+
+  private final LocalDate date;
 
   private Integer numberOfSets;
 
   private Referee referee;
 
-  private ScoreBoard scoreBoard;
-
-
-  public Match(int numberOfSets, List<Player> players, Referee referee) {
+  public Match(Integer id, int numberOfSets, List<Player> players, Referee referee) {
+    this.id = id;
     this.sets = new ArrayList<>();
     this.players = players;
     this.numberOfSets = numberOfSets;
     this.referee = referee;
     this.scoreBoard = new ScoreBoard();
+    this.date = LocalDate.now();
   }
 
-  public void startMatch() {
-    String inputAction;
-
-    Scanner scanner = new Scanner(System.in);
-    String actionList = MatchPointActionType.getAllPointActionList();
-    Player service = this.getNextServicePlayer();
-    Player rest = this.getOpponentPlayer(service);
-    this.scoreBoard.initialize(this.numberOfSets, service, rest);
-    do {
-      System.out.print("Enter action [ " + actionList + " ](type 'exit' to quit): ");
-      inputAction = scanner.nextLine();
-      this.processAction(inputAction);
-      this.scoreBoard.update(this.sets, this.getCurrentSet(),this.getNextServicePlayer());
-      this.scoreBoard.display();
-    } while (!inputAction.equalsIgnoreCase("exit"));
-
-    System.out.println("Finished");
-  }
-
-  private void addPointService(Set currentSet, Player service, Player rest){
+  private void addPointService(Set currentSet, Player service, Player rest) {
     Objects.requireNonNull(currentSet);
     currentSet.addPointService(service, rest);
   }
 
-  private void addPointRest(Set currentSet, Player service, Player rest){
+  private void addPointRest(Set currentSet, Player service, Player rest) {
     Objects.requireNonNull(currentSet);
     currentSet.addPointRest(service, rest);
   }
 
-  private void addLackService(Set currentSet, Player service, Player rest){
+  private void addLackService(Set currentSet, Player service, Player rest) {
     Objects.requireNonNull(currentSet);
     currentSet.addLackService(service, rest);
   }
 
-  public Set getCurrentSet(){
+  public Set getCurrentSet() {
     for (Set set : sets) {
       if (!set.isFinished()) {
         return set;
@@ -70,23 +56,31 @@ public class Match {
     return null;
   }
 
-  private void processAction(String action) {
+  public void processAction(String action) {
     Objects.requireNonNull(action);
     MatchPointActionType actionType = MatchPointActionType.fromString(action);
     Objects.requireNonNull(actionType);
     Set currentSet = getCurrentOrNewSet();
     Player service = this.getNextServicePlayer();
     Player rest = this.getOpponentPlayer(service);
-    switch (actionType){
+    switch (actionType) {
       case LACK_SERVICE -> this.addLackService(currentSet, service, rest);
       case POINT_SERVICE -> this.addPointService(currentSet, service, rest);
       case REST_SERVICE -> this.addPointRest(currentSet, service, rest);
     }
   }
 
+  public ScoreBoard getScoreBoard() {
+    return scoreBoard;
+  }
+
+  public LocalDate getDate() {
+    return date;
+  }
+
   private Set getCurrentOrNewSet() {
     Set currentSet = this.getCurrentSet();
-    if(currentSet!= null){
+    if (currentSet != null) {
       return currentSet;
     }
     return addNewSet();
@@ -103,30 +97,34 @@ public class Match {
         this.players.get(1) : this.players.get(0);
   }
 
-  public Player getRandomPlayer(){
+  public Player getRandomPlayer() {
     Random randomBoolean = new Random();
-    return (randomBoolean.nextBoolean())? this.players.get(0) : this.players.get(1);
+    return (randomBoolean.nextBoolean()) ? this.players.get(0) : this.players.get(1);
   }
 
-  private Player getNextServicePlayer(){
-    if(this.isFirstGameInCurrentOrNewSet()){
+  public Integer getId() {
+    return id;
+  }
+
+  private Player getNextServicePlayer() {
+    if (this.isFirstGameInCurrentOrNewSet()) {
       return getRandomPlayer();
     }
 
-    if(this.isFirstGameInNonFirstSet() && this.doesLastFinishedSetHaveTieBreak()){
+    if (this.isFirstGameInNonFirstSet() && this.doesLastFinishedSetHaveTieBreak()) {
       return this.getLastFinishedSet().getRestPlayerFromFirstPointInLastFinishedGame();
-    }else if (this.isFirstGameInNonFirstSet() && !this.doesLastFinishedSetHaveTieBreak()){
+    } else if (this.isFirstGameInNonFirstSet() && !this.doesLastFinishedSetHaveTieBreak()) {
       return getRandomPlayer();
     }
 
-    if(existsCurrentSet()){
+    if (existsCurrentSet()) {
       return this.getServicePlayerFromCurrentSet();
     }
 
     return getRandomPlayer();
   }
 
-  private Player getServicePlayerFromCurrentSet(){
+  private Player getServicePlayerFromCurrentSet() {
     Set currentSet = this.getCurrentSet();
     return currentSet.getNexServicePlayerFromCurrentGame();
   }
@@ -139,7 +137,7 @@ public class Match {
     return true;
   }
 
-  private boolean existsFinishedSets(){
+  private boolean existsFinishedSets() {
     for (Set set : sets) {
       if (set.isFinished()) {
         return true;
@@ -148,7 +146,7 @@ public class Match {
     return false;
   }
 
-  private Set getLastFinishedSet(){
+  private Set getLastFinishedSet() {
     Set lastFinishedSet = null;
     for (Set set : sets) {
       if (set.isFinished()) {
@@ -158,18 +156,18 @@ public class Match {
     return lastFinishedSet;
   }
 
-  private boolean existsCurrentSet(){
+  private boolean existsCurrentSet() {
     Set currentSet = this.getCurrentSet();
     return currentSet != null;
   }
 
-  private boolean isFirstGameInNonFirstSet(){
+  private boolean isFirstGameInNonFirstSet() {
     return this.existsFinishedSets() && !this.existsCurrentSet();
   }
 
-  private boolean doesLastFinishedSetHaveTieBreak(){
+  private boolean doesLastFinishedSetHaveTieBreak() {
     Set lastFinishedSet = this.getLastFinishedSet();
-    if(lastFinishedSet != null){
+    if (lastFinishedSet != null) {
       return lastFinishedSet.doesSetHasTieBreakGame();
     }
     return false;

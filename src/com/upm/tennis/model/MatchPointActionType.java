@@ -1,10 +1,9 @@
-package com.upm.tennis;
+package com.upm.tennis.model;
 
 public enum MatchPointActionType {
   LACK_SERVICE("lackService"),
   POINT_SERVICE("pointService"),
   REST_SERVICE("pointRest");
-
 
   private final String action;
 
@@ -12,11 +11,7 @@ public enum MatchPointActionType {
     this.action = action;
   }
 
-  public String getAction() {
-    return action;
-  }
-
-  public static boolean isValidAction(String action){
+  public static boolean isValidAction(String action) {
     for (MatchPointActionType type : values()) {
       if (type.getAction().equals(action)) {
         return true;
@@ -34,15 +29,19 @@ public enum MatchPointActionType {
     return null;
   }
 
-  public static String getAllPointActionList(){
+  public static String getAllPointActionList() {
     StringBuilder actionList = new StringBuilder();
-    for(MatchPointActionType actionType: MatchPointActionType.values()){
-      if(!actionList.isEmpty()) {
+    for (MatchPointActionType actionType : MatchPointActionType.values()) {
+      if (!actionList.isEmpty()) {
         actionList.append(",");
       }
       actionList.append(actionType.getAction());
     }
     return actionList.toString();
+  }
+
+  public String getAction() {
+    return action;
   }
 
 }

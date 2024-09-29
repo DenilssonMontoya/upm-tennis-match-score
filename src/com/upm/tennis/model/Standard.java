@@ -1,11 +1,11 @@
-package com.upm.tennis;
+package com.upm.tennis.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class Standard extends Game{
+public class Standard extends Game {
 
   public Standard() {
     this.points = new ArrayList<>();
@@ -22,9 +22,11 @@ public class Standard extends Game{
     return this.points.get(0).getService();
   }
 
-  private boolean isThereGameWinner(Map<Player, Integer> pointWinsByPlayer){
-    if(pointWinsByPlayer.isEmpty()) return false;
-    if(pointWinsByPlayer.size() == 1){
+  private boolean isThereGameWinner(Map<Player, Integer> pointWinsByPlayer) {
+    if (pointWinsByPlayer.isEmpty()) {
+      return false;
+    }
+    if (pointWinsByPlayer.size() == 1) {
       Iterator<Entry<Player, Integer>> iterator = pointWinsByPlayer.entrySet().iterator();
       Entry<Player, Integer> playerEvaluated = iterator.next();
       return this.hasPlayerWonGame(playerEvaluated);
@@ -33,13 +35,13 @@ public class Standard extends Game{
     }
   }
 
-  private boolean hasAnyPlayerWonGame(Map<Player, Integer> gameWinsByPlayer){
+  private boolean hasAnyPlayerWonGame(Map<Player, Integer> gameWinsByPlayer) {
     Iterator<Entry<Player, Integer>> iterator = gameWinsByPlayer.entrySet().iterator();
     Entry<Player, Integer> playerEvaluatedA = iterator.next();
     Entry<Player, Integer> playerEvaluatedB = iterator.next();
 
-    return hasPlayerWonGame(playerEvaluatedA,playerEvaluatedB.getValue()) ||
-        hasPlayerWonGame(playerEvaluatedB,playerEvaluatedA.getValue());
+    return hasPlayerWonGame(playerEvaluatedA, playerEvaluatedB.getValue()) ||
+        hasPlayerWonGame(playerEvaluatedB, playerEvaluatedA.getValue());
   }
 
   private boolean hasPlayerWonGame(Entry<Player, Integer> evaluatedPlayer, int opponentPlayerWins) {
@@ -47,8 +49,12 @@ public class Standard extends Game{
     int numberOfEvaluatedPlayerWins = evaluatedPlayer.getValue();
     int numberOfEvaluatedPlayerWinsDifference = numberOfEvaluatedPlayerWins - opponentPlayerWins;
 
-    if(numberOfTotalWonPoints < 4) return false;
-    if(numberOfEvaluatedPlayerWins <= opponentPlayerWins) return false;
+    if (numberOfTotalWonPoints < 4) {
+      return false;
+    }
+    if (numberOfEvaluatedPlayerWins <= opponentPlayerWins) {
+      return false;
+    }
 
     return numberOfEvaluatedPlayerWinsDifference >= 2 && numberOfEvaluatedPlayerWins >= 4;
   }

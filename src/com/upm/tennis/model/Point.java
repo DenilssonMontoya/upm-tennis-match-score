@@ -1,4 +1,4 @@
-package com.upm.tennis;
+package com.upm.tennis.model;
 
 public class Point {
 
@@ -19,15 +19,15 @@ public class Point {
     return winner;
   }
 
-  public void incrementLackOfService(){
+  public void incrementLackOfService() {
     this.lackOfServiceCount++;
   }
 
-  public void addRestPlayerAsWinner(){
+  public void addRestPlayerAsWinner() {
     this.winner = this.rest;
   }
 
-  public void addServicePlayerAsWinner(){
+  public void addServicePlayerAsWinner() {
     this.winner = this.service;
   }
 
