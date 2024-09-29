@@ -6,8 +6,11 @@ import java.util.Set;
 
 public class Standard extends Game{
 
-  public Standard() {
+  public Standard(Player service, Player rest) {
+    super();
     this.pointsMap = new HashMap<Player, Integer>();
+    this.service = service;
+    this.rest = rest;
   }
 
   @Override
