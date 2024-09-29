@@ -35,7 +35,16 @@ public class TieBreak extends Game {
 
   @Override
   public Player getNextServicePlayerFromNonFirstPointInGame() {
-    return this.rest;
+    Integer pointsCountInGame = this.pointsMap.values()
+        .stream()
+        .reduce(Integer::sum)
+        .orElse(0);
+
+    if (pointsCountInGame % 2 == 0) {
+      return this.rest;
+    } else {
+      return this.service;
+    }
   }
 
   private Player getWinnerFromSinglePlayerWithPoints(Map<Player, Integer> pointWinsByPlayer) {

@@ -3,8 +3,8 @@ package com.upm.tennis.view;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.upm.tennis.controller.PublicScoreManagerController;
 import com.upm.tennis.controller.HelpController;
+import com.upm.tennis.controller.PublicScoreManagerController;
 
 public class PublicMenuView extends MenuView {
 

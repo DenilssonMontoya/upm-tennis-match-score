@@ -1,8 +1,8 @@
 package com.upm.tennis;
 
-import com.upm.tennis.controller.PublicScoreManagerController;
 import com.upm.tennis.controller.HelpController;
 import com.upm.tennis.controller.MainMenuController;
+import com.upm.tennis.controller.PublicScoreManagerController;
 import com.upm.tennis.controller.RefereeScoreManagerController;
 import com.upm.tennis.model.ScoreManager;
 import com.upm.tennis.view.HelpView;
